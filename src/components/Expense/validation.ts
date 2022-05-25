@@ -22,24 +22,28 @@ class ExpenseValidation extends Validation {
      * @memberof ExpenseValidation
      */
     createExpense(params: IExpenseModel): Joi.ValidationResult<IExpenseModel> {
-        let item = Joi.object().keys({
-            productName: Joi.string().required(),
+        const item = Joi.object().keys({
+            name: Joi.string().required(),
             quantity: Joi.number().required(),
             priceBeforeVat: Joi.number().required(),
             vatRate: Joi.number().required(),
             vatAmount: Joi.number().required(),
             priceAfterVat: Joi.number().required(),
-          })
+        })
 
         const schema: Joi.ObjectSchema = Joi.object().keys({
-            storeName: Joi.string().required(),
-            city: Joi.string(),
-            address: Joi.string(),
-            timestamp: Joi.string().required(),
+            dateTimeCreated: Joi.string().required(),
+            totalPriceWithoutVAT: Joi.number().required(),
+            totalVATAmount: Joi.number().required(),
             category: Joi.string().required(),
             totalPrice: Joi.number().required(),
-            items: Joi.array().items(item)
-           
+            items: Joi.array().items(item),
+            seller: Joi.object({
+                name: Joi.string().required(),
+                address: Joi.string(),
+                town: Joi.string(),
+                country: Joi.string()
+            })
         });
 
         return schema.validate(params);
