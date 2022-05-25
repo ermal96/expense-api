@@ -1,9 +1,6 @@
 # Node.js Express API with TypeScript 3
 > Node.js Express API with TypeScript 3. Supports MongoDB
 
-## Description
-This skeleton will help you to build your own Node.js Express Mongodb API using TypeScript 3.
-
 ### Project Introduction
 - suppot ES6/ES7 features
 - using tslint followed [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
@@ -13,10 +10,6 @@ This skeleton will help you to build your own Node.js Express Mongodb API using 
 - jwt authentication
 ##### Session Storage:
 - MongoDB
-##### Integration testing
-- mocha
-- chai
-- supertest
 
 ## Requirements
 
@@ -67,13 +60,3 @@ npm test
 ## Set up environment
 In root folder you can find `.env`. You can use this config or change it for your purposes.
 If you want to add some new variables, you also need to add them to interface and config object (Look `src/config/index.ts`)
-
-## Swagger
-```bash
-npm install -g swagger-jsdoc
-swagger-jsdoc -d swaggerDef.js -o swagger.json
-```
-Swagger documentation will be available on route: 
-```bash
-http://localhost:3000/docs
-```
