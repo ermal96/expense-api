@@ -23,27 +23,18 @@ const development: IConfig = {
 };
 
 const production: IConfig = {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 950,
     database: {
-        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://production_uri/',
-        MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db',
+        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/',
+        MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'expense',
     },
     secret: process.env.SECRET || 'secret',
 };
 
-const test: IConfig = {
-    port: process.env.PORT || 3000,
-    database: {
-        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017',
-        MONGODB_DB_MAIN: `${(process.env.MONGODB_DB_MAIN || 'example_db')}_test`,
-    },
-    secret: process.env.SECRET || 'secret',
-};
 
 const config: {
     [name: string]: IConfig;
 } = {
-    test,
     development,
     production,
 };
