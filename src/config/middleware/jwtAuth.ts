@@ -15,13 +15,6 @@ interface RequestWithUser extends Request {
  * @param {Response} res
  * @param {NextFunction} next
  * @returns {void}
- * @swagger
- *  components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  */
 export function isAuthenticated(req: RequestWithUser, res: Response, next: NextFunction): void {
     const token: any = req.headers.authorization;
