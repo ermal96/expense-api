@@ -49,15 +49,16 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         const user: IUserModel = await AuthService.getUser(req.body);
 
         const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
-            expiresIn: '60m',
+            expiresIn: '2000000m',
         });
 
         res.status(HttpStatus.OK)
-            .header({
-                Authorization: token,
-            })
             .send({
                 message: 'Login Success!',
+                data: {
+                    token: token,
+                    email: user.email,
+                }
             });
     } catch (error) {
         if (error.code === 500) {
