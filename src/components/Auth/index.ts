@@ -20,11 +20,19 @@ interface RequestWithUser extends Request {
  */
 export async function signup(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        await AuthService.createUser(req.body);
+        const user: IUserModel = await AuthService.createUser(req.body);
+        
+        const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
+            expiresIn: '2000000m',
+        });
 
         res.status(HttpStatus.OK)
             .send({
                 message: 'You have signed up successfully',
+                data: {
+                    token: token,
+                    email: user.email,
+                }
             });
     } catch (error) {
         if (error.code === HttpStatus.INTERNAL_SERVER_ERROR) {
