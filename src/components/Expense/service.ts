@@ -15,7 +15,7 @@ const ExpenseService: IExpenseService = {
      */
     async findAll(): Promise<IExpenseModel[]> {
         try {
-            return await ExpenseModel.find({});
+            return await ExpenseModel.find().sort({ _id: -1 });
         } catch (error) {
             throw new Error(error.message);
         }
