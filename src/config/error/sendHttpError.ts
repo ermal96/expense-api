@@ -39,7 +39,7 @@ export function sendHttpErrorModule(req: Request, res: any, next: NextFunction):
  */
 const generateHTML: Function = (error: HttpError): string => {
     if (error) {
-        return "<div style='text-align: center;'>" + `<p>Status: ${error.status}</p>` + `<p>Name: ${error.name}</p>` + `<p>${error}</p>` + '</div>';
+        return "<div style='text-align: center;'>" + `<p>Statussss: ${error.status}</p>` + `<p>Name: ${error.name}</p>` + `<p>${error}</p>` + '</div>';
     }
 
     return '';
