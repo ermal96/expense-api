@@ -1,4 +1,3 @@
-import { config } from '@/config/env/index';
 import * as bcrypt from 'bcrypt';
 import * as connections from '@/config/connection/connection';
 import * as crypto from 'crypto';

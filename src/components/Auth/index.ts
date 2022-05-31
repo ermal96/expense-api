@@ -33,7 +33,7 @@ export async function signup(req: Request, res: Response, next: NextFunction): P
                     },
                     profile: {
                         ...user.profile,
-                        picture: user.gravatar(100),
+                        picture: user.gravatar(100)
                     }
                 }
             });
