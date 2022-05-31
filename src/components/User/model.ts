@@ -1,3 +1,4 @@
+import { config } from '@/config/env/index';
 import * as bcrypt from 'bcrypt';
 import * as connections from '@/config/connection/connection';
 import * as crypto from 'crypto';
@@ -21,27 +22,20 @@ export interface IUserRequest {
 export interface IUserModel extends Document {
     email: string;
     password: string;
-    passwordResetToken: string;
-    passwordResetExpires: Date;
 
-    facebook: string;
-    tokens: AuthToken[];
+    config: {
+        currency: "EUR" | "LEK",
+        language: "EN" | "SQ",
+    };
 
     profile: {
         name: string;
         gender: string;
-        location: string;
-        website: string;
         picture: string;
     };
     comparePassword: (password: string) => Promise<boolean>;
     gravatar: (size: number) => string;
 }
-
-export type AuthToken = {
-    accessToken: string;
-    kind: string;
-};
 
 const UserSchema: Schema = new Schema(
     {
@@ -50,10 +44,19 @@ const UserSchema: Schema = new Schema(
             unique: true,
             trim: true,
         },
+
+        config: {
+            currency: "EUR",
+            language: "EN",
+        },
+       
+        profile: {
+            name: String,
+            gender: String,
+            picture: String,
+        },
+
         password: String,
-        passwordResetToken: String,
-        passwordResetExpires: Date,
-        tokens: Array,
     },
     {
         collection: 'users',
