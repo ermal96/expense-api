@@ -45,8 +45,14 @@ const UserSchema: Schema = new Schema(
         },
 
         config: {
-            currency: "EUR",
-            language: "EN",
+            currency: {
+                type: String,
+                default: "EUR",
+            },
+            language: {
+                type: String,
+                default: "EN",
+            },
         },
        
         profile: {
