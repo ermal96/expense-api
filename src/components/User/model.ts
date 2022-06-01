@@ -20,30 +20,27 @@ export interface IUserRequest {
  */
 export interface IUserModel extends Document {
     email: string;
+    name: string;
     password: string;
 
     config: {
         currency: "EUR" | "LEK",
         language: "EN" | "SQ",
     };
-
-    profile: {
-        name: string;
-        gender: string;
-        picture: string;
-    };
+    
     comparePassword: (password: string) => Promise<boolean>;
     gravatar: (size: number) => string;
 }
 
 const UserSchema: Schema = new Schema(
     {
+        name: String,
         email: {
             type: String,
             unique: true,
             trim: true,
         },
-
+       
         config: {
             currency: {
                 type: String,
@@ -55,12 +52,6 @@ const UserSchema: Schema = new Schema(
             },
         },
        
-        profile: {
-            name: String,
-            gender: String,
-            picture: String,
-        },
-
         password: String,
     },
     {

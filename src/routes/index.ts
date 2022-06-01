@@ -16,8 +16,8 @@ type Response = express.Response;
 export function init(app: express.Application): void {
     const router: express.Router = express.Router();
 
-    app.use('/v1/users', jwtConfig.isAuthenticated, UserRouter);
-    app.use('/v1/expenses', jwtConfig.isAuthenticated, ExpenseRouter);
+    app.use('/users', UserRouter);
+    app.use('/expenses', jwtConfig.isAuthenticated, ExpenseRouter);
     app.use('/auth', AuthRouter);
 
     app.use((req: Request, res: Response, next: NextFunction) => {

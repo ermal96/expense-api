@@ -23,6 +23,7 @@ import { Document, Schema } from 'mongoose';
   
 export interface IExpenseModel extends Document {
     totalPrice: number,
+    category: string,
     dateTimeCreated: string,
     seller: {
         name: string,
