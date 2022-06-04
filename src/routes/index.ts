@@ -16,14 +16,16 @@ type Response = express.Response;
 export function init(app: express.Application): void {
     const router: express.Router = express.Router();
 
-    app.use('/', (req: Request, res: Response, next: NextFunction) => {
-        res.status(200).send("Welcome to expense api!");
-    });
+
     
     
     app.use('/users', UserRouter);
     app.use('/expenses', jwtConfig.isAuthenticated, ExpenseRouter);
     app.use('/auth', AuthRouter);
+    
+    app.use('/', (req: Request, res: Response, next: NextFunction) => {
+        res.status(200).send("Welcome to expense api!");
+    });
 
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.status(404).send(http.STATUS_CODES[404]);
