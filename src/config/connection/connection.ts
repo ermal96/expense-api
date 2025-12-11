@@ -2,28 +2,9 @@ import * as mongoose from 'mongoose';
 import config from '@/config/env/index';
 import Logger from '@/utils/Logger';
 
-interface IConnectOptions {
-    autoReconnect: boolean;
-    reconnectTries: number; // Never stop trying to reconnect
-    reconnectInterval: number;
-    loggerLevel?: string;
-    useNewUrlParser?: boolean;
-    useUnifiedTopology: boolean;
-    useCreateIndex: boolean;
-}
-
-const connectOptions: IConnectOptions = {
-    autoReconnect: true,
-    reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 1000,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-};
-
 const MONGO_URI: string = `${config.database.MONGODB_URI}${config.database.MONGODB_DB_MAIN}`;
 
-export const db: mongoose.Connection = mongoose.createConnection(MONGO_URI, connectOptions);
+export const db: mongoose.Connection = mongoose.createConnection(MONGO_URI);
 
 // handlers
 db.on('connecting', () => {
@@ -32,7 +13,7 @@ db.on('connecting', () => {
 
 db.on('error', (error: any) => {
     Logger.error(`[MongoDB] connection ${error}`);
-    mongoose.disconnect();
+    db.close().catch(err => Logger.error(`[MongoDB] Error closing connection: ${err}`));
 });
 
 db.on('connected', () => {

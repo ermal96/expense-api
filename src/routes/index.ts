@@ -16,11 +16,12 @@ type Response = express.Response;
 export function init(app: express.Application): void {
     const router: express.Router = express.Router();
 
-
-    app.use('/users', UserRouter);
-    app.use('/expenses', jwtConfig.isAuthenticated, ExpenseRouter);
+    // Public routes
     app.use('/auth', AuthRouter);
-  
+
+    // Protected routes - require authentication
+    app.use('/users', jwtConfig.isAuthenticated, UserRouter);
+    app.use('/expenses', jwtConfig.isAuthenticated, ExpenseRouter);
 
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.status(404).send(http.STATUS_CODES[404]);

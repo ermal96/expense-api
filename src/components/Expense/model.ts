@@ -22,6 +22,7 @@ import { Document, Schema } from 'mongoose';
   }
   
 export interface IExpenseModel extends Document {
+    userId: Schema.Types.ObjectId,
     totalPrice: number,
     category: string,
     dateTimeCreated: string,
@@ -38,9 +39,15 @@ export interface IExpenseModel extends Document {
 
 const ExpenseSchema: Schema = new Schema(
     {
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'UserModel',
+            required: true,
+            index: true,
+        },
         totalPrice: Number,
         category: String,
-        dateTimeCreated: String,
+        dateTimeCreated: Date,
         seller: {
             name: String,
             address: String,
@@ -61,6 +68,7 @@ const ExpenseSchema: Schema = new Schema(
     {
         collection: 'expenses',
         versionKey: false,
+        timestamps: true,
     }
 );
 

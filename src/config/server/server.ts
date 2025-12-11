@@ -5,7 +5,7 @@ import * as Routes from '@/routes';
 /**
  * @constant {express.Application}
  */
-const app: express.Application = express();
+const app: express.Application = express.default();
 
 /**
  * @constructs express.Application Middleware
@@ -28,9 +28,12 @@ Middleware.initErrorHandler(app);
 app.set('port', process.env.PORT || 3000);
 
 /**
- * sets secret to 'superSecret', otherwise specified in the environment
+ * sets secret from environment variable (required)
  */
-app.set('secret', process.env.SECRET || 'superSecret');
+if (!process.env.SECRET) {
+    throw new Error('SECRET environment variable is required');
+}
+app.set('secret', process.env.SECRET);
 
 /**
  * @exports {express.Application}
