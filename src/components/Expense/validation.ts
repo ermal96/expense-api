@@ -18,10 +18,10 @@ class ExpenseValidation extends Validation {
 
     /**
      * @param {IExpenseModel} params
-     * @returns {any}
+     * @returns {Joi.ValidationResult<IExpenseModel >}
      * @memberof ExpenseValidation
      */
-    createExpense(params: IExpenseModel): any {
+    createExpense(params: IExpenseModel): Joi.ValidationResult<IExpenseModel> {
         const item = Joi.object().keys({
             name: Joi.string().required(),
             quantity: Joi.number().required(),
@@ -51,12 +51,14 @@ class ExpenseValidation extends Validation {
 
     /**
      * @param {{ id: string }} body
-     * @returns {any}
+     * @returns {Joi.ValidationResult<{ id: string }>}
      * @memberof ExpenseValidation
      */
     getExpense(body: {
         id: string;
-    }): any {
+    }): Joi.ValidationResult<{
+        id: string;
+    }> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             id: this.customJoi.objectId().required(),
         });
@@ -66,12 +68,14 @@ class ExpenseValidation extends Validation {
 
     /**
      * @param {{ id: string }} body
-     * @returns {any}
+     * @returns {Joi.ValidationResult<{ id: string }>}
      * @memberof ExpenseValidation
      */
     removeExpense(body: {
         id: string;
-    }): any {
+    }): Joi.ValidationResult<{
+        id: string;
+    }> {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             id: this.customJoi.objectId().required(),
         });

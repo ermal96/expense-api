@@ -9,27 +9,26 @@ export interface IExpenseService {
      * @returns {Promise<IExpenseModel[]>}
      * @memberof IExpenseService
      */
-    findAll(userId?: string): Promise<IExpenseModel[]>;
+    findAll(): Promise<IExpenseModel[]>;
 
     /**
      * @param {string} code
      * @returns {Promise<IExpenseModel>}
      * @memberof IExpenseService
      */
-    findOne(code: string, userId?: string): Promise<IExpenseModel>;
+    findOne(code: string): Promise<IExpenseModel>;
 
     /**
      * @param {IExpenseModel} IExpenseModel
-     * @param {string} userId
      * @returns {Promise<IExpenseModel>}
      * @memberof IExpenseService
      */
-    insert(IExpenseModel: IExpenseModel, userId: string): Promise<IExpenseModel>;
+    insert(IExpenseModel: IExpenseModel): Promise<IExpenseModel>;
 
     /**
      * @param {string} id
      * @returns {Promise<IExpenseModel>}
      * @memberof IExpenseService
      */
-    remove(id: string, userId?: string): Promise<IExpenseModel>;
+    remove(id: string): Promise<IExpenseModel>;
 }

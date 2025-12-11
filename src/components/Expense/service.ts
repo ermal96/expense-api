@@ -13,10 +13,9 @@ const ExpenseService: IExpenseService = {
      * @returns {Promise < IExpenseModel[] >}
      * @memberof ExpenseService
      */
-    async findAll(userId?: string): Promise<IExpenseModel[]> {
+    async findAll(): Promise<IExpenseModel[]> {
         try {
-            const query = userId ? { userId } : {};
-            return await ExpenseModel.find(query).sort({ _id: -1 });
+            return await ExpenseModel.find().sort({ _id: -1 });
         } catch (error) {
             throw new Error(error.message);
         }
@@ -27,9 +26,11 @@ const ExpenseService: IExpenseService = {
      * @returns {Promise < IExpenseModel >}
      * @memberof ExpenseService
      */
-    async findOne(id: string, userId?: string): Promise<IExpenseModel> {
+    async findOne(id: string): Promise<IExpenseModel> {
         try {
-            const validate: any = ExpenseValidation.getExpense({
+            const validate: Joi.ValidationResult<{
+                id: string;
+            }> = ExpenseValidation.getExpense({
                 id,
             });
 
@@ -37,12 +38,14 @@ const ExpenseService: IExpenseService = {
                 throw new Error(validate.error.message);
             }
 
-            const query: any = { _id: new Types.ObjectId(id) };
-            if (userId) {
-                query.userId = userId;
-            }
-
-            return await ExpenseModel.findOne(query);
+            return await ExpenseModel.findOne(
+                {
+                    _id: Types.ObjectId(id),
+                },
+                {
+                    password: 0,
+                }
+            );
         } catch (error) {
             throw new Error(error.message);
         }
@@ -53,18 +56,15 @@ const ExpenseService: IExpenseService = {
      * @returns {Promise < IExpenseModel >}
      * @memberof ExpenseService
      */
-    async insert(body: IExpenseModel, userId: string): Promise<IExpenseModel> {
+    async insert(body: IExpenseModel): Promise<IExpenseModel> {
         try {
-            const validate: any = ExpenseValidation.createExpense(body);
+            const validate: Joi.ValidationResult<IExpenseModel> = ExpenseValidation.createExpense(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
 
-            const expense: IExpenseModel = await ExpenseModel.create({
-                ...body,
-                userId,
-            });
+            const expense: IExpenseModel = await ExpenseModel.create(body);
 
             return expense;
         } catch (error) {
@@ -77,9 +77,11 @@ const ExpenseService: IExpenseService = {
      * @returns {Promise < IExpenseModel >}
      * @memberof ExpenseService
      */
-    async remove(id: string, userId?: string): Promise<IExpenseModel> {
+    async remove(id: string): Promise<IExpenseModel> {
         try {
-            const validate: any = ExpenseValidation.removeExpense({
+            const validate: Joi.ValidationResult<{
+                id: string;
+            }> = ExpenseValidation.removeExpense({
                 id,
             });
 
@@ -87,12 +89,9 @@ const ExpenseService: IExpenseService = {
                 throw new Error(validate.error.message);
             }
 
-            const query: any = { _id: new Types.ObjectId(id) };
-            if (userId) {
-                query.userId = userId;
-            }
-
-            const expense: IExpenseModel = await ExpenseModel.findOneAndDelete(query);
+            const expense: IExpenseModel = await ExpenseModel.findOneAndRemove({
+                _id: Types.ObjectId(id),
+            });
 
             return expense;
         } catch (error) {

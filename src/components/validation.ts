@@ -28,7 +28,7 @@ abstract class Validation {
             },
             validate(value: any, helpers: Joi.Context): any {
                 if (!Types.ObjectId.isValid(value)) {
-                    return { value: new Types.ObjectId(value), errors: helpers.error('objectId') };
+                    return { value: Types.ObjectId(value), errors: helpers.error('objectId') };
                 }
             },
         }));
