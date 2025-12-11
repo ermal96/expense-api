@@ -17,12 +17,20 @@ class AuthValidation extends Validation {
     }
     /**
      * @param {IUserModel} params
-     * @returns {Joi.ValidationResult<IUserModel >}
+     * @returns {any}
      * @memberof UserValidation
      */
-    createUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+    createUser(params: IUserModel): any {
         const schema: Joi.ObjectSchema = Joi.object().keys({
-            password: Joi.string().required(),
+            password: Joi.string()
+                .min(8)
+                .max(128)
+                .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]/)
+                .required()
+                .messages({
+                    'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+                    'string.min': 'Password must be at least 8 characters long',
+                }),
             email: Joi.string()
                 .email({
                     minDomainSegments: 2,
@@ -34,10 +42,10 @@ class AuthValidation extends Validation {
     }
     /**
      * @param {IUserModel} params
-     * @returns {Joi.ValidationResult<IUserModel >}
+     * @returns {any}
      * @memberof UserValidation
      */
-    getUser(params: IUserModel): Joi.ValidationResult<IUserModel> {
+    getUser(params: IUserModel): any {
         const schema: Joi.ObjectSchema = Joi.object().keys({
             password: Joi.string().required(),
             email: Joi.string()

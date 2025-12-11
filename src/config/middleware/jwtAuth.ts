@@ -21,7 +21,9 @@ export function isAuthenticated(req: RequestWithUser, res: Response, next: NextF
 
     if (token && token.indexOf('Bearer ') !== -1) {
         try {
-            const user: object | string = jwt.verify(token.split('Bearer ')[1], app.get('secret'));
+            const user: object | string = jwt.verify(token.split('Bearer ')[1], app.get('secret'), {
+                algorithms: ['HS256']
+            });
 
             req.user = user;
 
