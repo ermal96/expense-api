@@ -5,7 +5,6 @@ import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import { HttpError } from '@/config/error';
 import { sendHttpErrorModule } from '@/config/error/sendHttpError';
 import Logger from '@/utils/Logger';
@@ -15,27 +14,6 @@ import Logger from '@/utils/Logger';
  * @param {express.Application} app
  */
 export function configure(app: express.Application): void {
-    // Rate limiting for authentication endpoints
-    const authLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 10, // limit each IP to 10 requests per windowMs
-        message: 'Too many authentication attempts, please try again later',
-        standardHeaders: true,
-        legacyHeaders: false,
-    });
-
-    // General API rate limiting
-    const apiLimiter = rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100, // limit each IP to 100 requests per windowMs
-        standardHeaders: true,
-        legacyHeaders: false,
-    });
-
-    // Apply rate limiting
-    app.use('/auth', authLimiter);
-    app.use('/api', apiLimiter);
-
     // express middleware
     app.use(
         bodyParser.urlencoded({
@@ -44,13 +22,13 @@ export function configure(app: express.Application): void {
     );
     app.use(bodyParser.json());
     // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
-    app.use((cookieParser as any)());
+    app.use(cookieParser());
     // returns the compression middleware
-    app.use((compression as any)());
+    app.use(compression());
     // helps you secure your Express apps by setting various HTTP headers
-    app.use((helmet as any)());
+    app.use(helmet());
     // providing a Connect/Express middleware that can be used to enable CORS with various options
-    app.use((cors as any)({
+    app.use(cors({
         exposedHeaders: ['Authorization'],
         optionsSuccessStatus: HttpStatus.OK,
     }));

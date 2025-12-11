@@ -22,9 +22,8 @@ export async function signup(req: Request, res: Response, next: NextFunction): P
     try {
         const user: IUserModel = await AuthService.createUser(req.body);
         
-        const token: string = jwt.sign({ id: user._id.toString(), email: user.email }, app.get('secret'), {
-            algorithm: 'HS256',
-            expiresIn: '1h',
+        const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
+            expiresIn: '2000000m',
         });
 
         res.status(HttpStatus.OK)
@@ -62,9 +61,8 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     try {
         const user: IUserModel = await AuthService.getUser(req.body);
 
-        const token: string = jwt.sign({ id: user._id.toString(), email: user.email }, app.get('secret'), {
-            algorithm: 'HS256',
-            expiresIn: '1h',
+        const token: string = jwt.sign({ id: user.id, email: user.email }, app.get('secret'), {
+            expiresIn: '2000000m',
         });
 
         res.status(HttpStatus.OK)

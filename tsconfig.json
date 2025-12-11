@@ -3,17 +3,11 @@
         "outDir": "./build/",
         "baseUrl": "./",
         "module": "commonjs",
-        "noImplicitAny": false,
-        "noUnusedLocals": false,
-        "noUnusedParameters": false,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
         "resolveJsonModule": true,
-        "target": "ES2020",
-        "lib": ["ES2020"],
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
+        "target": "es6",
         "sourceMap": true,
-        "skipLibCheck": true,
         "plugins": [
             {
                 "name": "tslint-language-service"

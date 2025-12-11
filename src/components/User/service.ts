@@ -28,7 +28,9 @@ const UserService: IUserService = {
      */
     async findOne(id: string): Promise<IUserModel> {
         try {
-            const validate: any = UserValidation.getUser({
+            const validate: Joi.ValidationResult<{
+                id: string;
+            }> = UserValidation.getUser({
                 id,
             });
 
@@ -38,7 +40,7 @@ const UserService: IUserService = {
 
             return await UserModel.findOne(
                 {
-                    _id: new Types.ObjectId(id),
+                    _id: Types.ObjectId(id),
                 },
                 {
                     password: 0,
@@ -56,7 +58,7 @@ const UserService: IUserService = {
      */
     async insert(body: IUserModel): Promise<IUserModel> {
         try {
-            const validate: any = UserValidation.createUser(body);
+            const validate: Joi.ValidationResult<IUserModel> = UserValidation.createUser(body);
             
             if (validate.error) {
                 throw new Error(validate.error.message);
@@ -77,7 +79,9 @@ const UserService: IUserService = {
      */
     async remove(id: string): Promise<IUserModel> {
         try {
-            const validate: any = UserValidation.removeUser({
+            const validate: Joi.ValidationResult<{
+                id: string;
+            }> = UserValidation.removeUser({
                 id,
             });
 
@@ -85,8 +89,8 @@ const UserService: IUserService = {
                 throw new Error(validate.error.message);
             }
 
-            const user: IUserModel = await UserModel.findOneAndDelete({
-                _id: new Types.ObjectId(id),
+            const user: IUserModel = await UserModel.findOneAndRemove({
+                _id: Types.ObjectId(id),
             });
 
             return user;

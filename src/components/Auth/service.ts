@@ -15,7 +15,7 @@ const AuthService: IAuthService = {
      */
     async createUser(body: IUserModel): Promise<IUserModel> {
         try {
-            const validate: any = AuthValidation.createUser(body);
+            const validate: Joi.ValidationResult<IUserModel> = AuthValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
@@ -38,7 +38,7 @@ const AuthService: IAuthService = {
 
             return saved;
         } catch (error) {
-            throw error;
+            throw new Error(error);
         }
     },
     /**
@@ -48,7 +48,7 @@ const AuthService: IAuthService = {
      */
     async getUser(body: IUserModel): Promise<IUserModel> {
         try {
-            const validate: any = AuthValidation.getUser(body);
+            const validate: Joi.ValidationResult<IUserModel> = AuthValidation.getUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
@@ -66,7 +66,7 @@ const AuthService: IAuthService = {
 
             throw new Error('Invalid password or email');
         } catch (error) {
-            throw error;
+            throw new Error(error);
         }
     },
 };

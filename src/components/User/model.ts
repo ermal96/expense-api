@@ -57,7 +57,6 @@ const UserSchema: Schema = new Schema(
     {
         collection: 'users',
         versionKey: false,
-        timestamps: true,
     }
 ).pre('save', async function (next: NextFunction): Promise<void> {
     const user: any = this; // tslint:disable-line
@@ -67,7 +66,7 @@ const UserSchema: Schema = new Schema(
     }
 
     try {
-        const salt: string = await bcrypt.genSalt(12);
+        const salt: string = await bcrypt.genSalt(10);
 
         const hash: string = await bcrypt.hash(user.password, salt);
 
@@ -87,7 +86,7 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string):
 
         return match;
     } catch (error) {
-        return false;
+        return error;
     }
 };
 
